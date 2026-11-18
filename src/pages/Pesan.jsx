@@ -1,17 +1,21 @@
 import { useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import { useData } from '../lib/useData.js'
 import { supabase, supabaseSiap } from '../lib/supabase.js'
 import { Judul } from '../components/Ui.jsx'
 import { kisaran, waLink } from '../lib/format.js'
+import { KATEGORI } from '../lib/config.js'
+import { useData } from '../lib/useData.js'
+import { DEMO_PENGRAJIN } from '../data/demo.js'
+
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 
 export default function Pesan() {
   const [params] = useSearchParams()
-  const kategori = useData((s) => s.from('kategori_harga').select('*').order('urutan'))
   const [f, setF] = useState({
     nama: '', no_hp: '', instansi: '', kategori: params.get('kategori') || '', jenis: params.get('jenis') || '',
-    ukuran: '', jumlah: 1, catatan: '', setuju: false, website: '',
+    ukuran: '', jumlah: 1, catatan: '', setuju: false, website: '', pengrajin: params.get('pengrajin') || '',
   })
+  const pengrajin = useData((s) => s.from('pengrajin').select('id, nama, peran').order('nama'), [], () => DEMO_PENGRAJIN)
   const [kirim, setKirim] = useState({ loading: false, error: null, hasil: null })
   const ubah = (k) => (e) => setF({ ...f, [k]: e.target.type === 'checkbox' ? e.target.checked : e.target.value })
 
@@ -23,6 +27,7 @@ export default function Pesan() {
     const { data, error } = await supabase.rpc('buat_pesanan', {
       p_nama: f.nama, p_no_hp: f.no_hp, p_instansi: f.instansi, p_kategori: f.kategori, p_jenis: f.jenis,
       p_ukuran: f.ukuran, p_jumlah: Number(f.jumlah), p_catatan: f.catatan, p_setuju_aturan: f.setuju,
+      p_pengrajin_id: UUID.test(f.pengrajin) ? f.pengrajin : null,
     })
     if (error) return setKirim({ loading: false, error: error.message, hasil: null })
     setKirim({ loading: false, error: null, hasil: data[0] })
@@ -56,7 +61,7 @@ export default function Pesan() {
         <label>Kategori
           <select required value={f.kategori} onChange={ubah('kategori')}>
             <option value="">Pilih kategori</option>
-            {kategori.data?.map((k) => <option key={k.kategori} value={k.kategori}>{k.label}</option>)}
+            {KATEGORI.map((k) => <option key={k.kategori} value={k.kategori}>{k.label}</option>)}
           </select>
         </label>
         <label>Barang yang ingin dibuat
@@ -70,6 +75,12 @@ export default function Pesan() {
             <input required type="number" min={1} max={500} value={f.jumlah} onChange={ubah('jumlah')} />
           </label>
         </div>
+        <label>Pengrajin pilihan (opsional)
+          <select value={f.pengrajin} onChange={ubah('pengrajin')}>
+            <option value="">Dicocokkan otomatis sesuai keahlian</option>
+            {pengrajin.data?.map((p) => <option key={p.id} value={p.id}>{p.nama}{p.peran ? ` (${p.peran})` : ''}</option>)}
+          </select>
+        </label>
         <label>Catatan (opsional)
           <textarea maxLength={1000} rows={3} value={f.catatan} onChange={ubah('catatan')} placeholder="Kegunaan, bentuk gagang, tenggat waktu, dll." />
         </label>

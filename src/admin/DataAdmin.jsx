@@ -5,26 +5,76 @@ import { Muat } from '../components/Ui.jsx'
 import { rupiah, tanggal } from '../lib/format.js'
 import { unggahFoto } from './upload.js'
 
+export const slugify = (t) =>
+  t.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')
+const SLUG_OK = /^[a-z0-9]+(-[a-z0-9]+)*$/
+
+// Baris "T: ..." diikuti "J: ...". Baris tanpa awalan menyambung baris sebelumnya.
+export function parseWawancara(teks) {
+  const pasang = []
+  let akhir = null
+  for (const [n, mentah] of teks.split(/\r?\n/).entries()) {
+    const baris = mentah.trim()
+    if (!baris) continue
+    const m = baris.match(/^([TJ])\s*:\s*(.*)$/i)
+    if (!m) {
+      if (!akhir) return { error: `Baris ${n + 1}: harus diawali "T:" atau "J:".` }
+      akhir.o[akhir.k] += ' ' + baris
+      continue
+    }
+    const k = m[1].toLowerCase() === 't' ? 't' : 'j'
+    const atas = pasang[pasang.length - 1]
+    if (k === 't') {
+      if (atas && !atas.j) return { error: `Baris ${n + 1}: pertanyaan sebelumnya belum punya jawaban "J:".` }
+      pasang.push({ t: m[2], j: '' })
+      akhir = { o: pasang[pasang.length - 1], k }
+    } else {
+      if (!atas || atas.j) return { error: `Baris ${n + 1}: jawaban "J:" harus didahului pertanyaan "T:".` }
+      atas.j = m[2]
+      akhir = { o: atas, k }
+    }
+  }
+  if (pasang.length && !pasang[pasang.length - 1].j) return { error: 'Pertanyaan terakhir belum punya jawaban "J:".' }
+  if (pasang.some((p) => !p.t.trim() || !p.j.trim())) return { error: 'Ada pertanyaan atau jawaban yang kosong.' }
+  return { pasang: pasang.map((p) => ({ t: p.t.trim(), j: p.j.trim() })) }
+}
+if (import.meta.env.DEV) {
+  console.assert(parseWawancara('T: a?\nJ: b\nlanjut\nT: c?\nJ: d').pasang?.[0].j === 'b lanjut', 'parseWawancara gabung')
+  console.assert(parseWawancara('T: a?\nT: b?').error, 'parseWawancara T ganda')
+  console.assert(parseWawancara('').pasang?.length === 0, 'parseWawancara kosong')
+}
+
 export function PengrajinAdmin() {
-  const kosong = { nama: '', keahlian: '', kapasitas_per_bulan: '', bio: '', izin_tampil: false }
+  const kosong = { nama: '', slug: '', peran: '', sejak_tahun: '', dusun: '', kutipan: '', wawancara: '', keahlian: '', kapasitas_per_bulan: '', bio: '', izin_tampil: false }
   const [f, setF] = useState(kosong)
+  const [slugManual, setSlugManual] = useState(false)
   const [file, setFile] = useState(null)
   const [msg, setMsg] = useState(null)
   const [muatUlang, setMuatUlang] = useState(0)
   const list = useData((s) => s.from('pengrajin').select('*').order('nama'), [muatUlang])
   const ubah = (k) => (e) => setF({ ...f, [k]: e.target.type === 'checkbox' ? e.target.checked : e.target.value })
+  const ubahNama = (e) => setF({ ...f, nama: e.target.value, ...(slugManual ? {} : { slug: slugify(e.target.value) }) })
+  const ubahSlug = (e) => { setSlugManual(true); setF({ ...f, slug: e.target.value.toLowerCase() }) }
+  const ww = parseWawancara(f.wawancara)
 
   async function simpan(e) {
     e.preventDefault()
+    if (!SLUG_OK.test(f.slug)) return setMsg('Slug hanya boleh huruf kecil a-z, angka, dan tanda hubung (contoh: pak-sarmin).')
+    if (ww.error) return setMsg('Wawancara: ' + ww.error)
+    const tahun = new Date().getFullYear()
+    if (f.sejak_tahun !== '' && (Number(f.sejak_tahun) < 1900 || Number(f.sejak_tahun) > tahun)) return setMsg(`Tahun mulai menempa harus antara 1900 dan ${tahun}.`)
     try {
       const foto_url = file ? await unggahFoto(file, 'pengrajin') : null
       const { error } = await supabase.from('pengrajin').insert({
-        nama: f.nama, bio: f.bio || null, izin_tampil: f.izin_tampil, foto_url,
+        nama: f.nama, slug: f.slug, bio: f.bio || null, izin_tampil: f.izin_tampil, foto_url,
+        peran: f.peran.trim() || null, dusun: f.dusun.trim() || null, kutipan: f.kutipan.trim() || null,
+        sejak_tahun: f.sejak_tahun === '' ? null : Number(f.sejak_tahun),
+        wawancara: ww.pasang,
         keahlian: f.keahlian.split(',').map((x) => x.trim()).filter(Boolean),
         kapasitas_per_bulan: f.kapasitas_per_bulan === '' ? null : Number(f.kapasitas_per_bulan),
       })
       if (error) throw error
-      setMsg('Pengrajin ditambahkan.'); setF(kosong); setFile(null); setMuatUlang((n) => n + 1)
+      setMsg('Pengrajin ditambahkan.'); setF(kosong); setSlugManual(false); setFile(null); setMuatUlang((n) => n + 1)
     } catch (err) { setMsg(err.message) }
   }
   async function izin(id, v) {
@@ -37,11 +87,24 @@ export function PengrajinAdmin() {
       <form className="form card pad" onSubmit={simpan}>
         <h3>Tambah pengrajin</h3>
         <div className="row2">
-          <label>Nama<input required value={f.nama} onChange={ubah('nama')} /></label>
+          <label>Nama<input required value={f.nama} onChange={ubahNama} /></label>
+          <label>Slug (alamat profil)<input required value={f.slug} onChange={ubahSlug} pattern="[a-z0-9]+(-[a-z0-9]+)*" title="Huruf kecil a-z, angka, dan tanda hubung" placeholder="pak-sarmin" /></label>
+        </div>
+        <div className="row2">
+          <label>Peran<input value={f.peran} onChange={ubah('peran')} placeholder="Ketua, Penempa bilah, Anggota" /></label>
+          <label>Menempa sejak (tahun)<input type="number" min={1900} max={new Date().getFullYear()} value={f.sejak_tahun} onChange={ubah('sejak_tahun')} /></label>
+        </div>
+        <div className="row2">
+          <label>Dusun<input value={f.dusun} onChange={ubah('dusun')} /></label>
           <label>Kapasitas pesanan / bulan<input type="number" min={0} value={f.kapasitas_per_bulan} onChange={ubah('kapasitas_per_bulan')} /></label>
         </div>
+        <label>Kutipan singkat<input value={f.kutipan} onChange={ubah('kutipan')} placeholder="Satu kalimat dari pengrajin sendiri" /></label>
         <label>Keahlian (pisahkan dengan koma)<input value={f.keahlian} onChange={ubah('keahlian')} placeholder="alat tani, pisau, dekorasi" /></label>
         <label>Bio singkat<textarea rows={2} value={f.bio} onChange={ubah('bio')} /></label>
+        <label>Wawancara (tiap pertanyaan diawali "T:", jawabannya "J:")
+          <textarea rows={6} value={f.wawancara} onChange={ubah('wawancara')} aria-invalid={!!ww.error} placeholder={'T: Sejak kapan menempa?\nJ: Sejak SMP, ikut bapak di besalen.'} />
+        </label>
+        {f.wawancara.trim() && <small className={ww.error ? 'alert' : 'muted'}>{ww.error ?? `${ww.pasang.length} pasang tanya-jawab terbaca.`}</small>}
         <label>Foto (opsional)<input type="file" accept="image/jpeg,image/png,image/webp" onChange={(e) => setFile(e.target.files[0] ?? null)} /></label>
         <label className="check"><input type="checkbox" checked={f.izin_tampil} onChange={ubah('izin_tampil')} /><span>Pengrajin sudah mengizinkan profilnya tampil di situs</span></label>
         {msg && <p className="muted">{msg}</p>}
@@ -52,7 +115,7 @@ export function PengrajinAdmin() {
           <div className="tabel">
             {rows.map((p) => (
               <div key={p.id} className="tabel-baris">
-                <span><b>{p.nama}</b><br /><small className="muted">{p.keahlian?.join(', ') || '-'} | kapasitas {p.kapasitas_per_bulan ?? '-'} / bulan</small></span>
+                <span><b>{p.nama}</b>{p.peran && <> · {p.peran}</>}<br /><small className="muted">/{p.slug ?? '-'} | {p.keahlian?.join(', ') || '-'} | kapasitas {p.kapasitas_per_bulan ?? '-'} / bulan</small></span>
                 <label className="check"><input type="checkbox" checked={p.izin_tampil} onChange={(e) => izin(p.id, e.target.checked)} /><span>Tampil publik</span></label>
               </div>
             ))}

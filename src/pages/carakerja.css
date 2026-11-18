@@ -1,0 +1,56 @@
+.ck-hero { display: grid; grid-template-columns: 1.1fr 1fr; gap: 56px; align-items: center; padding-top: 132px; padding-bottom: 72px; }
+.ck-hero h1 { font-size: clamp(2.3rem, 4.6vw, 3.6rem); }
+.ck-hero-foto { position: relative; height: 420px; }
+.ck-hero-foto img { position: absolute; border-radius: var(--radius); object-fit: cover; box-shadow: var(--shadow); border: 6px solid var(--surface); transition: transform .6s var(--ease); }
+.ck-hero-foto .f1 { width: 62%; height: 62%; left: 0; top: 6%; transform: rotate(-3deg); }
+.ck-hero-foto .f2 { width: 46%; height: 52%; right: 0; top: 0; transform: rotate(4deg); }
+.ck-hero-foto .f3 { width: 52%; height: 42%; right: 10%; bottom: 0; transform: rotate(-1deg); }
+.ck-hero-foto:hover .f1 { transform: rotate(-5deg) translate(-6px, -4px); }
+.ck-hero-foto:hover .f2 { transform: rotate(7deg) translate(6px, -6px); }
+.ck-hero-foto:hover .f3 { transform: rotate(1deg) translateY(6px); }
+
+.ck-langkah { display: grid; grid-template-columns: 240px 1fr; gap: 56px; padding-bottom: 40px; }
+.ck-rail { position: sticky; top: 100px; align-self: start; display: grid; gap: 4px; border-left: 2px solid var(--line); }
+.ck-rail a { display: flex; gap: 12px; align-items: center; padding: 10px 14px; margin-left: -2px; border-left: 2px solid transparent; color: var(--muted); text-decoration: none; font-size: .9rem; font-weight: 600; transition: color .3s, border-color .3s; }
+.ck-rail a span { display: grid; place-items: center; width: 28px; height: 28px; flex: none; border-radius: 50%; background: var(--cream-2); font-family: var(--mono); font-size: .75rem; transition: background .3s, color .3s; }
+.ck-rail a.on { color: var(--ink); border-left-color: var(--ember); }
+.ck-rail a.on span { background: var(--ember); color: #fff; }
+
+.ck-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 96px; }
+.ck-list > li { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; scroll-margin-top: 100px; }
+.ck-list > li.balik .ck-teks { order: 2; }
+.ck-no { display: inline-block; font-family: var(--mono); font-size: .74rem; letter-spacing: .12em; text-transform: uppercase; color: var(--ember-ink); background: var(--ember-soft); padding: 4px 12px; border-radius: 999px; margin-bottom: 14px; }
+.ck-teks h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); }
+.ck-teks p { color: var(--muted); font-size: 1.05rem; }
+.ck-teks ul { list-style: none; padding: 0; margin: 18px 0 0; display: grid; gap: 10px; }
+.ck-teks ul li { padding: 12px 16px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); font-size: .94rem; }
+.ck-teks ul b { color: var(--ink); }
+.ck-foto img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius); box-shadow: var(--shadow); transition: transform .6s var(--ease); }
+.ck-foto:hover img { transform: scale(1.02) rotate(-.6deg); }
+
+.ck-nilai { background: var(--char); color: #d6cfc6; padding: 88px 0; margin-top: 56px; }
+.ck-nilai h2 { color: #fff; max-width: 18ch; }
+.ck-nilai-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 36px; }
+.ck-nilai-grid > div { padding: 26px; border: 1px solid rgba(255, 255, 255, .1); border-radius: var(--radius); background: rgba(255, 255, 255, .03); }
+.ck-nilai-grid b { display: block; color: #fff; font-family: var(--serif); font-size: 1.3rem; margin-bottom: 8px; }
+.ck-nilai-grid p { margin: 0; }
+
+.ck-faq { padding-top: 88px; padding-bottom: 24px; }
+.ck-faq details { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); margin-bottom: 10px; padding: 0 20px; transition: border-color .3s; }
+.ck-faq details[open] { border-color: var(--ember); }
+.ck-faq summary { cursor: pointer; padding: 18px 0; font-weight: 700; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
+.ck-faq summary::-webkit-details-marker { display: none; }
+.ck-faq summary::after { content: "+"; color: var(--ember-ink); font-size: 1.3rem; line-height: 1; transition: transform .3s; }
+.ck-faq details[open] summary::after { transform: rotate(45deg); }
+.ck-faq details p { margin: 0 0 18px; color: var(--muted); }
+.ck-kontak { margin-top: 20px; }
+
+@media (max-width: 960px) {
+  .ck-hero { grid-template-columns: 1fr; padding-top: 112px; }
+  .ck-hero-foto { height: 320px; }
+  .ck-langkah { grid-template-columns: 1fr; }
+  .ck-rail { display: none; }
+  .ck-list > li { grid-template-columns: 1fr; gap: 24px; }
+  .ck-list > li.balik .ck-teks { order: 0; }
+  .ck-nilai-grid { grid-template-columns: 1fr; }
+}

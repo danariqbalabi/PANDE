@@ -151,13 +151,38 @@ create policy setoran_admin on setoran_besi for all using (is_admin()) with chec
 drop policy if exists scan_admin on log_scan;
 create policy scan_admin on log_scan for select using (is_admin());
 
+
+-- ============ v2: koleksi & profil pengrajin ============
+alter table pengrajin add column if not exists slug text unique;
+alter table pengrajin add column if not exists peran text;
+alter table pengrajin add column if not exists sejak_tahun int;
+alter table pengrajin add column if not exists dusun text;
+alter table pengrajin add column if not exists kutipan text;
+-- wawancara: [{"t": "pertanyaan", "j": "jawaban"}, ...]
+alter table pengrajin add column if not exists wawancara jsonb not null default '[]';
+
+alter table karya add column if not exists slug text unique;  -- URL rapi /karya/{slug}
+alter table karya add column if not exists jenis text;
+alter table karya add column if not exists finishing text;
+alter table karya add column if not exists panjang_mm int check (panjang_mm > 0);
+alter table karya add column if not exists berat_gram int check (berat_gram > 0);
+alter table karya add column if not exists baja text;
+alter table karya add column if not exists gagang text;
+alter table karya add column if not exists pengasah_id uuid references pengrajin(id) on delete set null;
+
+-- pemesan boleh memilih pengrajin (opsional)
+alter table pesanan add column if not exists pengrajin_pilihan uuid references pengrajin(id) on delete set null;
+
+drop function if exists buat_pesanan(text,text,text,text,text,text,int,text,boolean);
+
 -- ============ FUNGSI PUBLIK (RPC) ============
 
 -- Buat pesanan baru. Validasi di sini karena ini batas kepercayaan (input publik).
-drop function if exists buat_pesanan(text,text,text,text,text,text,int,text,boolean);
+drop function if exists buat_pesanan(text,text,text,text,text,text,int,text,boolean,uuid);
 create or replace function buat_pesanan(
   p_nama text, p_no_hp text, p_instansi text, p_kategori text, p_jenis text,
-  p_ukuran text, p_jumlah int, p_catatan text, p_setuju_aturan boolean
+  p_ukuran text, p_jumlah int, p_catatan text, p_setuju_aturan boolean,
+  p_pengrajin_id uuid default null
 ) returns table (kode text, estimasi_min bigint, estimasi_max bigint)
 language plpgsql security definer set search_path = public as $$
 #variable_conflict use_column
@@ -200,10 +225,11 @@ begin
     exit when not exists (select 1 from pesanan where pesanan.kode = v_kode);
   end loop;
 
-  insert into pesanan (kode, nama, no_hp, instansi, kategori, jenis, ukuran, jumlah, catatan, estimasi_min, estimasi_max)
+  insert into pesanan (kode, nama, no_hp, instansi, kategori, jenis, ukuran, jumlah, catatan, estimasi_min, estimasi_max, pengrajin_pilihan)
   values (v_kode, trim(p_nama), v_hp, nullif(trim(p_instansi), ''), p_kategori, trim(p_jenis),
           nullif(trim(p_ukuran), ''), p_jumlah, nullif(trim(p_catatan), ''),
-          v_kat.harga_mulai::bigint * p_jumlah, v_kat.harga_sampai::bigint * p_jumlah);
+          v_kat.harga_mulai::bigint * p_jumlah, v_kat.harga_sampai::bigint * p_jumlah,
+          (select id from pengrajin where id = p_pengrajin_id and izin_tampil));
 
   return query select v_kode, v_kat.harga_mulai::bigint * p_jumlah, v_kat.harga_sampai::bigint * p_jumlah;
 end; $$;
@@ -244,7 +270,7 @@ language sql stable security definer set search_path = public as $$
   );
 $$;
 
-grant execute on function buat_pesanan(text,text,text,text,text,text,int,text,boolean) to anon, authenticated;
+grant execute on function buat_pesanan(text,text,text,text,text,text,int,text,boolean,uuid) to anon, authenticated;
 grant execute on function cek_status(text,text) to anon, authenticated;
 grant execute on function catat_scan(text) to anon, authenticated;
 grant execute on function dampak() to anon, authenticated;

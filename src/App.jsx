@@ -7,6 +7,8 @@ import Pesan from './pages/Pesan.jsx'
 import Status from './pages/Status.jsx'
 import Paspor from './pages/Paspor.jsx'
 import Pengrajin from './pages/Pengrajin.jsx'
+import PengrajinDetail from './pages/PengrajinDetail.jsx'
+import CaraKerja from './pages/CaraKerja.jsx'
 import Dampak from './pages/Dampak.jsx'
 import Desa from './pages/Desa.jsx'
 import Aturan from './pages/Aturan.jsx'
@@ -24,6 +26,8 @@ export default function App() {
         <Route path="/status" element={<Status />} />
         <Route path="/p/:kode" element={<Paspor />} />
         <Route path="/pengrajin" element={<Pengrajin />} />
+        <Route path="/pengrajin/:slug" element={<PengrajinDetail />} />
+        <Route path="/cara-kerja" element={<CaraKerja />} />
         <Route path="/dampak" element={<Dampak />} />
         <Route path="/desa" element={<Desa />} />
         <Route path="/aturan" element={<Aturan />} />

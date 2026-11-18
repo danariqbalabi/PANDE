@@ -3,9 +3,11 @@ import { supabase } from '../lib/supabase.js'
 import { useData } from '../lib/useData.js'
 import { Muat } from '../components/Ui.jsx'
 import { kisaran } from '../lib/format.js'
+import { JENIS, FINISHING } from '../lib/config.js'
 import { unggahFoto } from './upload.js'
 
-const KOSONG = { nama: '', kategori: '', deskripsi: '', ukuran: '', harga_mulai: '', harga_sampai: '', pengrajin_id: '', unggulan: false }
+const KOSONG = { nama: '', kategori: '', deskripsi: '', ukuran: '', harga_mulai: '', harga_sampai: '', pengrajin_id: '', unggulan: false,
+  jenis: '', finishing: '', panjang_mm: '', berat_gram: '', baja: 'Baja per kendaraan bekas', gagang: '', pengasah_id: '' }
 
 export default function KaryaAdmin() {
   const [f, setF] = useState(KOSONG)
@@ -25,9 +27,12 @@ export default function KaryaAdmin() {
     try {
       const foto_url = file ? await unggahFoto(file, 'karya') : null
       const { error } = await supabase.from('karya').insert({
-        nama: f.nama, kategori: f.kategori, deskripsi: f.deskripsi || null, ukuran: f.ukuran || null,
+        nama: f.nama, slug: f.nama.toLowerCase().normalize('NFKD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') + '-' + Date.now().toString(36).slice(-4),
+        kategori: f.kategori, deskripsi: f.deskripsi || null, ukuran: f.ukuran || null,
         harga_mulai: angka(f.harga_mulai), harga_sampai: angka(f.harga_sampai),
         pengrajin_id: f.pengrajin_id || null, unggulan: f.unggulan, foto_url,
+        jenis: f.jenis || null, finishing: f.finishing || null, panjang_mm: angka(f.panjang_mm), berat_gram: angka(f.berat_gram),
+        baja: f.baja.trim() || null, gagang: f.gagang.trim() || null, pengasah_id: f.pengasah_id || null,
       })
       if (error) throw error
       setMsg('Karya ditambahkan.')
@@ -56,7 +61,7 @@ export default function KaryaAdmin() {
         <div className="row2">
           <label>Nama<input required value={f.nama} onChange={ubah('nama')} /></label>
           <label>Kategori
-            <select required value={f.kategori} onChange={ubah('kategori')}>
+            <select required value={f.kategori} onChange={(e) => setF({ ...f, kategori: e.target.value, jenis: '' })}>
               <option value="">Pilih</option>{kategori.data?.map((k) => <option key={k.kategori} value={k.kategori}>{k.label}</option>)}
             </select>
           </label>
@@ -65,6 +70,25 @@ export default function KaryaAdmin() {
           <label>Ukuran<input value={f.ukuran} onChange={ubah('ukuran')} /></label>
           <label>Pengrajin
             <select value={f.pengrajin_id} onChange={ubah('pengrajin_id')}>
+              <option value="">-</option>{pengrajin.data?.map((p) => <option key={p.id} value={p.id}>{p.nama}</option>)}
+            </select>
+          </label>
+          <label>Jenis
+            <select value={f.jenis} onChange={ubah('jenis')} disabled={!f.kategori}>
+              <option value="">-</option>{JENIS.filter((j) => j.kategori === f.kategori).map((j) => <option key={j.id} value={j.id}>{j.label}</option>)}
+            </select>
+          </label>
+          <label>Finishing
+            <select value={f.finishing} onChange={ubah('finishing')}>
+              <option value="">-</option>{FINISHING.map((x) => <option key={x.id} value={x.id}>{x.label}</option>)}
+            </select>
+          </label>
+          <label>Panjang bilah (mm)<input type="number" min={0} value={f.panjang_mm} onChange={ubah('panjang_mm')} /></label>
+          <label>Berat (gram)<input type="number" min={0} value={f.berat_gram} onChange={ubah('berat_gram')} /></label>
+          <label>Baja / bahan<input value={f.baja} onChange={ubah('baja')} /></label>
+          <label>Gagang<input value={f.gagang} onChange={ubah('gagang')} placeholder="mis. Kayu sonokeling" /></label>
+          <label>Pengasah
+            <select value={f.pengasah_id} onChange={ubah('pengasah_id')}>
               <option value="">-</option>{pengrajin.data?.map((p) => <option key={p.id} value={p.id}>{p.nama}</option>)}
             </select>
           </label>
