@@ -1,0 +1,21 @@
+# Render Blueprint: Render Dashboard > New > Blueprint > pilih repo ini.
+services:
+  - type: web
+    name: pande
+    runtime: static
+    buildCommand: npm ci && npm run build
+    staticPublishPath: dist
+    routes:
+      # SPA: semua alamat (termasuk /p/{kode} dari QR) diarahkan ke index.html
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: VITE_SUPABASE_URL
+        sync: false
+      - key: VITE_SUPABASE_ANON_KEY
+        sync: false
+      - key: VITE_WA_NUMBER
+        sync: false
+      - key: VITE_SITE_URL
+        sync: false
