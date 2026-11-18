@@ -141,8 +141,6 @@ code { background: var(--steel-100); padding: .1em .35em; border-radius: 3px; }
 @keyframes glow { 50% { opacity: .55; transform: scale(.94); } }
 .knifeset { position: relative; width: 100%; height: auto; filter: drop-shadow(0 30px 40px rgba(0, 0, 0, .55)); animation: float 7s ease-in-out infinite; }
 .knife-showcase { position: relative; width: 100%; aspect-ratio: 1; isolation: isolate; }
-.knife-orbit { position: absolute; inset: 7%; border: 1px solid rgba(255, 255, 255, .1); border-radius: 50%; background: radial-gradient(circle, rgba(255, 107, 26, .08), transparent 68%); pointer-events: none; }
-.knife-orbit::after { content: ''; position: absolute; inset: 12%; border: 1px dashed rgba(255, 255, 255, .06); border-radius: 50%; }
 .knife-touch { position: absolute; inset: 0; display: grid; place-items: center; perspective: 1000px; cursor: grab; touch-action: pan-y; border-radius: 50%; outline-offset: -5px; }
 .knife-touch:focus-visible { outline: 2px solid var(--ember); }
 .is-dragging .knife-touch { cursor: grabbing; }
@@ -151,6 +149,9 @@ code { background: var(--steel-100); padding: .1em .35em; border-radius: 3px; }
 .hero-knife { display: block; width: 100%; height: auto; overflow: visible; filter: drop-shadow(0 24px 24px rgba(0, 0, 0, .65)); user-select: none; }
 .hero-knife-celurit { width: 72%; margin-inline: auto; }
 .knife-swap { animation: knife-reveal .35s ease-out both; }
+.hero-procurement, .hero-procurement a, .hero-procurement button, .hero-procurement .knife-touch, .hero-procurement .is-dragging .knife-touch { cursor: url('/cursor-besi.svg') 4 4, pointer; }
+.knife-activate { display: block; width: 100%; padding: 0; border: 0; background: none; color: inherit; pointer-events: auto; }
+.knife-activate:focus-visible { outline: 1px dashed var(--ember); outline-offset: 8px; }
 .is-dragging .knife-spin, .knife-touch:hover .knife-spin, .knife-touch:focus-visible .knife-spin { animation-play-state: paused; }
 .knife-controls { position: absolute; z-index: 1; bottom: 0; left: 0; max-width: calc(100% - 100px); display: flex; flex-direction: column; align-items: flex-start; gap: 10px; color: #b5a99c; font-size: .72rem; }
 .knife-picker { display: flex; flex-wrap: wrap; gap: 6px; }
@@ -162,11 +163,11 @@ code { background: var(--steel-100); padding: .1em .35em; border-radius: 3px; }
 .is-cutting .knife-touch { border-radius: 24px; touch-action: none; cursor: crosshair; overflow: hidden; }
 .is-cutting .knife-angle { position: absolute; width: 38%; }
 .is-cutting .knife-spin { animation: none; }
+.is-cutting .knife-activate { pointer-events: none; }
 .is-cutting .hero-knife { filter: drop-shadow(0 8px 10px rgba(0, 0, 0, .5)); }
 .is-cutting .knife-controls { background: rgba(16, 14, 12, .85); padding: 10px; border-radius: 14px; }
 .cutting-score { position: absolute; top: 12px; left: 16px; color: #c8b9a7; font-size: .75rem; pointer-events: none; }
 .cutting-score strong { color: var(--ember); font-family: var(--display); font-size: 2rem; margin-right: 5px; }
-.knife-controls .cutting-toggle { border-color: rgba(255, 107, 26, .6); color: #ffad75; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
 @keyframes knife-turn { to { transform: rotate(360deg); } }
 @keyframes knife-reveal { from { opacity: 0; transform: scale(.88); } to { opacity: 1; transform: scale(1); } }
@@ -431,6 +432,23 @@ code { background: var(--steel-100); padding: .1em .35em; border-radius: 3px; }
 .form input, .form select, .form textarea { border-radius: var(--radius-sm); background: var(--surface); }
 .chip { border-radius: 999px; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Concise product and procurement information on the home page. */
+.hero-procurement h1 { font-size: clamp(2.8rem, 5.7vw, 5.1rem); line-height: 1.02; }
+.hero-procurement .hero-in { grid-template-columns: 1.15fr 1fr; gap: 32px; }
+.hero-procurement .lead { font-size: 1rem; max-width: 43ch; line-height: 1.7; }
+.home-categories { padding-block: 48px; }
+.home-categories .section-head { margin-bottom: 24px; }
+.home-categories .kategori { display: grid; grid-template-columns: 1fr 68px; padding: 20px; gap: 6px 12px; }
+.home-categories .kategori-no { grid-column: 1; }
+.home-categories .kategori-art { grid-column: 2; grid-row: 1 / span 4; width: 68px; height: 68px; align-self: center; margin: 0; }
+.home-categories .kategori h3 { font-size: 1.15rem; margin: 0; }
+.home-categories .kategori p { font-size: .74rem; margin: 0; line-height: 1.5; }
+.home-categories .kategori-go { font-size: .58rem; padding-top: 6px; }
+.product-brief { margin: 14px 0; padding-block: 9px; border-block: 1px solid var(--line); font-size: .7rem; }
+.product-brief > div { display: grid; grid-template-columns: 48px 1fr; gap: 10px; padding-block: 3px; }
+.product-brief dt { color: var(--muted); }.product-brief dd { margin: 0; line-height: 1.5; }
+@media (max-width: 900px) { .hero-procurement .hero-in { grid-template-columns: 1fr; } }
 
 /* Order journey: a working note alongside the production ledger. */
 .journey-heading { display: flex; justify-content: space-between; align-items: end; gap: 32px; margin-bottom: 40px; }

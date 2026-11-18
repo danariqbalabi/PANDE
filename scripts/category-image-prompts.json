@@ -1,0 +1,42 @@
+{
+  "mode": "built-in image_gen",
+  "purpose": "Category illustrations, not photographs of actual inventory",
+  "assets": [
+    {
+      "id": "alat_tani",
+      "source": "C:\\Users\\USER\\.codex\\generated_images\\01a1eef4-2697-7062-93e4-bdd61398683c\\exec-dd988dc6-3993-4c12-97d8-813520b5f481.png",
+      "prompt": "Use case: product-mockup. Asset type: category illustration for an Indonesian artisan blacksmith website, not a documentary photo of real inventory. Generate a landscape 4:3 still life in a consistent premium workshop catalogue visual series. Near overhead 25-degree angle, matte warm ivory seamless surface (#eee7db), soft window light from upper left, gentle natural shadows falling lower right. Realistic hand-forged charcoal steel with subtle hammer texture and warm dark teak wood. Objects centered, entirely visible, with 15% breathing room on every edge. Restrained warm cream, graphite grey and brown palette. No people, no text, no labels, no logos, no watermarks, no frames, no border, no collage. Calm practical objects, no fantasy decoration. All six pictures in this series must have exactly this same framing, backdrop and lighting. Subject: one traditional Indonesian cangkul hoe with a short wooden handle, one curved agricultural sickle with wooden grip, one small hand garden fork. Three familiar working farm tools arranged in a relaxed diagonal fan, each clearly separate, no dangerous combat context.",
+      "output": "public/kategori/alat_tani.webp"
+    },
+    {
+      "id": "pertukangan",
+      "source": "C:\\Users\\USER\\.codex\\generated_images\\01a1eef4-2697-7062-93e4-bdd61398683c\\exec-8b44128b-f38f-4b1b-973a-49e024feac49.png",
+      "prompt": "Use case: product-mockup. Asset type: category illustration for an Indonesian artisan blacksmith website, not a documentary photo of real inventory. Generate a landscape 4:3 still life in a consistent premium workshop catalogue visual series. Near overhead 25-degree angle, matte warm ivory seamless surface (#eee7db), soft window light from upper left, gentle natural shadows falling lower right. Realistic hand-forged charcoal steel with subtle hammer texture and warm dark teak wood. Objects centered, entirely visible, with 15% breathing room on every edge. Restrained warm cream, graphite grey and brown palette. No people, no text, no labels, no logos, no watermarks, no frames, no border, no collage. Calm practical objects, no fantasy decoration. All six pictures in this series must have exactly this same framing, backdrop and lighting. Subject: a forged steel carpenter hammer with teak handle, a flat cold chisel with wooden handle, and a simple compact pry bar. Three practical workshop hand tools arranged in a relaxed diagonal fan, clearly separate.",
+      "output": "public/kategori/pertukangan.webp"
+    },
+    {
+      "id": "dapur",
+      "source": "C:\\Users\\USER\\.codex\\generated_images\\01a1eef4-2697-7062-93e4-bdd61398683c\\exec-2af5914b-55bf-49e6-8cb6-0ba0a213483d.png",
+      "prompt": "Use case: product-mockup. Asset type: category illustration for an Indonesian artisan blacksmith website, not a documentary photo of real inventory. Generate a landscape 4:3 still life in a consistent premium workshop catalogue visual series. Near overhead 25-degree angle, matte warm ivory seamless surface (#eee7db), soft window light from upper left, gentle natural shadows falling lower right. Realistic hand-forged charcoal steel with subtle hammer texture and warm dark teak wood. Objects centered, entirely visible, with 15% breathing room on every edge. Restrained warm cream, graphite grey and brown palette. No people, no text, no labels, no logos, no watermarks, no frames, no border, no collage. Calm practical objects, no fantasy decoration. All six pictures in this series must have exactly this same framing, backdrop and lighting. Subject: one forged chef kitchen knife, one smaller utility kitchen knife and one vegetable cleaver with warm teak handles. Three practical culinary tools arranged parallel in a slight diagonal fan, all blades and handles fully visible. No food or extra props.",
+      "output": "public/kategori/dapur.webp"
+    },
+    {
+      "id": "rumah_dekor",
+      "source": "C:\\Users\\USER\\.codex\\generated_images\\01a1eef4-2697-7062-93e4-bdd61398683c\\exec-a7084934-fe0e-4569-84d5-99fa7854f6d4.png",
+      "prompt": "Use case: product-mockup. Asset type: category illustration for an Indonesian artisan blacksmith website, not a documentary photo of real inventory. Generate a landscape 4:3 still life in a consistent premium workshop catalogue visual series. Near overhead 25-degree angle, matte warm ivory seamless surface (#eee7db), soft window light from upper left, gentle natural shadows falling lower right. Realistic hand-forged charcoal steel with subtle hammer texture and warm dark teak wood. Objects centered, entirely visible, with 15% breathing room on every edge. Restrained warm cream, graphite grey and brown palette. No people, no text, no labels, no logos, no watermarks, no frames, no border, no collage. Calm practical objects, no fantasy decoration. All six pictures in this series must have exactly this same framing, backdrop and lighting. Subject: a pair of hand-forged dark steel decorative door hinges, two simple elegant forged steel wall hooks and a small hammered steel door handle. An understated coordinated set of useful home hardware, arranged neatly with equal spacing.",
+      "output": "public/kategori/rumah_dekor.webp"
+    },
+    {
+      "id": "suvenir",
+      "source": "C:\\Users\\USER\\.codex\\generated_images\\01a1eef4-2697-7062-93e4-bdd61398683c\\exec-d4979008-2fde-4de5-9a45-840ed863e8ff.png",
+      "prompt": "Use case: product-mockup. Asset type: category illustration for an Indonesian artisan blacksmith website, not a documentary photo of real inventory. Generate a landscape 4:3 still life in a consistent premium workshop catalogue visual series. Near overhead 25-degree angle, matte warm ivory seamless surface (#eee7db), soft window light from upper left, gentle natural shadows falling lower right. Realistic hand-forged charcoal steel with subtle hammer texture and warm dark teak wood. Objects centered, entirely visible, with 15% breathing room on every edge. Restrained warm cream, graphite grey and brown palette. No people, no text, no labels, no logos, no watermarks, no frames, no border, no collage. Calm practical objects, no fantasy decoration. All six pictures in this series must have exactly this same framing, backdrop and lighting. Subject: two artisan forged steel bottle openers, one small simple hammered metal keyring and one tiny blank circular metal keepsake on a cord. A restrained group of useful small metal souvenirs, arranged thoughtfully, no engraved symbols or text.",
+      "output": "public/kategori/suvenir.webp"
+    },
+    {
+      "id": "khusus",
+      "source": "C:\\Users\\USER\\.codex\\generated_images\\01a1eef4-2697-7062-93e4-bdd61398683c\\exec-35a33de7-6ccb-42a9-87f5-362d9cb21d63.png",
+      "prompt": "Use case: product-mockup. Asset type: category illustration for an Indonesian artisan blacksmith website, not a documentary photo of real inventory. Generate a landscape 4:3 still life in a consistent premium workshop catalogue visual series. Near overhead 25-degree angle, matte warm ivory seamless surface (#eee7db), soft window light from upper left, gentle natural shadows falling lower right. Realistic hand-forged charcoal steel with subtle hammer texture and warm dark teak wood. Objects centered, entirely visible, with 15% breathing room on every edge. Restrained warm cream, graphite grey and brown palette. No people, no text, no labels, no logos, no watermarks, no frames, no border, no collage. Calm practical objects, no fantasy decoration. All six pictures in this series must have exactly this same framing, backdrop and lighting. Subject: an unmarked ivory technical sketch sheet with only faint dimension lines and a simple outline of a metal bracket, beside a real forged metal custom bracket, a short steel ruler with no readable markings and a dark wooden pencil. Neat bespoke metalwork consultation still life. No readable text or numbers.",
+      "output": "public/kategori/khusus.webp"
+    }
+  ]
+}

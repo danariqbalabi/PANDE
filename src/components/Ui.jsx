@@ -19,13 +19,19 @@ export function FotoKarya({ k, besar = false }) {
   )
 }
 
-export function KartuKarya({ k }) {
+export function KartuKarya({ k, spesifikasi = false }) {
+  const spek = spesifikasi ? [
+    ['Ukuran', k.ukuran || (k.panjang_mm ? `${k.panjang_mm} mm` : null)],
+    ['Bahan', k.baja],
+    ['Berat', k.berat_gram ? `${k.berat_gram} g` : null],
+  ].filter(([, value]) => value) : []
   return (
     <Link to={`/karya/${k.slug ?? k.id}`} className="card karya">
       <FotoKarya k={k} />
       <div className="card-body">
         <small className="tag">{k.kategori_harga?.label ?? k.kategori}</small>
         <h3>{k.nama}</h3>
+        {spek.length > 0 && <dl className="product-brief">{spek.map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl>}
         <p className="harga-kecil">{kisaran(k.harga_mulai, k.harga_sampai)}</p>
       </div>
       <span className="card-arrow" aria-hidden="true">→</span>

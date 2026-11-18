@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom'
 import { useData } from '../lib/useData.js'
-import { KATEGORI } from '../lib/config.js'
 import { KartuKarya } from '../components/Ui.jsx'
 import { Sparks, Reveal, Counter, Marquee, Stamp } from '../components/Effects.jsx'
 import { ToolArt } from '../components/ToolArt.jsx'
 import HeroKnife from '../components/HeroKnife.jsx'
 import WorkshopValues from '../components/WorkshopValues.jsx'
 import OrderJourney from '../components/OrderJourney.jsx'
+import HomeCatalog from '../components/HomeCatalog.jsx'
 import { SELECT_KARYA } from '../lib/useData.js'
 import { DEMO_KARYA } from '../data/demo.js'
 
@@ -14,25 +14,25 @@ export default function Beranda() {
   const unggulan = useData((s) =>
     s.from('karya').select(SELECT_KARYA).eq('unggulan', true).order('created_at', { ascending: false }).limit(6), [],
     () => DEMO_KARYA.filter((k) => k.unggulan).slice(0, 6))
+  const pilihan = (unggulan.data ?? []).filter((k) => k.unggulan && k.tampil !== false).slice(0, 6)
   const dampak = useData((s) => s.rpc('dampak'))
 
   return (
     <>
       {/* HERO */}
-      <section className="hero">
+      <section className="hero hero-procurement">
         <div className="hero-grid" aria-hidden="true" />
         <Sparks />
         <div className="wrap hero-in">
           <div className="hero-copy">
-            <span className="label on-dark"><i className="dot" /> Pande besi · Desa Pasir Wetan, Banyumas</span>
-            <h1>Pesan apa saja<br />dari <em>besi.</em></h1>
+            <span className="hero-eyebrow">Gayeng Ruyeng <span>Pasir Wetan, Banyumas</span></span>
+            <h1>Alat tempa.<br /><em>Sesuai spesifikasi.</em></h1>
             <p className="lead">
-              Alat tani, perkakas, pisau dapur, engsel, sampai suvenir. Ditempa dari <b>besi bekas</b> oleh
-              20 pengrajin Gayeng Ruyeng, dan setiap barang membawa nama desanya.
+              Untuk pertanian, dapur, dan pertukangan. Kirim ukuran, jumlah, dan gambar acuan untuk konfirmasi harga serta waktu pengerjaan.
             </p>
             <div className="actions">
-              <Link to="/pesan" className="btn">Pesan Sekarang <span aria-hidden="true">→</span></Link>
-              <Link to="/karya" className="btn ghost">Lihat Karya</Link>
+              <Link to="/pesan" className="btn">Ajukan Pesanan <span aria-hidden="true">→</span></Link>
+              <Link to="/karya" className="btn ghost">Lihat Produk</Link>
             </div>
             <dl className="hero-specs">
               <div><dt>Pengrajin</dt><dd>20</dd></div>
@@ -50,54 +50,30 @@ export default function Beranda() {
 
       <Marquee items={['Cangkul', 'Sabit', 'Pisau chef', 'Golok', 'Engsel', 'Palu', 'Garpu rumput', 'Pembuka botol', 'Plakat logam', 'Pesanan khusus']} />
 
-      {/* NILAI */}
-      <WorkshopValues />
-
       {/* KATEGORI */}
-      <section className="section band">
-        <div className="wrap">
-          <Reveal className="section-head">
-            <span className="label">Katalog</span>
-            <h2>Apa yang bisa ditempa</h2>
-            <p className="muted">Enam kategori, satu bengkel. Pilih kategori atau minta dibuatkan sesuai gambar.</p>
-          </Reveal>
-          <div className="kategori-grid">
-            {KATEGORI.map((k, i) => (
-              <Reveal key={k.kategori} delay={i * 60}>
-                <Link to={k.kategori === 'khusus' ? '/pesan?kategori=khusus' : `/karya?kategori=${k.kategori}`} className="kategori">
-                  <span className="kategori-no">{String(i + 1).padStart(2, '0')}</span>
-                  <ToolArt kategori={k.kategori} className="kategori-art" title={k.label} />
-                  <h3>{k.label}</h3>
-                  <p>{k.desc}</p>
-                  <span className="kategori-go">Lihat <span aria-hidden="true">→</span></span>
-                </Link>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
+      <HomeCatalog />
 
-      {unggulan.data?.length > 0 && (
+      {pilihan.length > 0 && (
         <section className="wrap section">
           <Reveal className="section-head">
-            <span className="label">Karya pilihan</span>
-            <h2>Dari bengkel Gayeng Ruyeng</h2>
-            <p className="muted">Produk asli dari katalog kelompok. <Link to="/karya">Lihat semua koleksi →</Link></p>
+            <span className="label">Referensi produk</span>
+            <h2>Spesifikasi & kisaran harga</h2>
+            <p className="muted">Harga pesanan custom dikonfirmasi pengrajin. <Link to="/karya">Semua produk →</Link></p>
           </Reveal>
-          <div className="grid3">{unggulan.data.map((k) => <KartuKarya key={k.id} k={k} />)}</div>
+          <div className="grid3">{pilihan.map((k) => <KartuKarya key={k.id} k={k} spesifikasi />)}</div>
         </section>
       )}
+
+      <WorkshopValues />
 
       {/* PASPOR */}
       <section className="section dark-band">
         <div className="wrap split">
           <Reveal className="split-copy">
             <span className="label on-dark">Paspor produk</span>
-            <h2>Setiap bilah bercerita.</h2>
+            <h2>Identitas & perawatan produk</h2>
             <p>
-              Di Solingen, sejak 1571 setiap bilah bertuliskan nama kotanya. Di Pasir Wetan, setiap barang dicap
-              <b> PASIR WETAN</b> dan diberi QR. Scan, dan kamu tahu siapa yang menempanya, berapa kilogram besi bekas
-              yang diselamatkan, dan apa lagi yang bisa ditemukan di desa ini.
+              Scan QR pada produk untuk melihat data pembuat, bahan, dan petunjuk perawatan.
             </p>
             <ul className="checks">
               <li>Nama pengrajin & tanggal tempa</li>
@@ -116,7 +92,7 @@ export default function Beranda() {
               <dl>
                 <dt>Ditempa oleh</dt><dd>Pengrajin Gayeng Ruyeng</dd>
                 <dt>Asal besi</dt><dd>Per kendaraan bekas</dd>
-                <dt>Besi diselamatkan</dt><dd>0,45 kg</dd>
+                <dt>Besi bekas terpakai</dt><dd>0,45 kg</dd>
               </dl>
               <div className="pm-qr">{Array.from({ length: 49 }, (_, i) => <i key={i} className={(i * 7 + (i % 5)) % 3 ? 'on' : ''} />)}</div>
             </div>
@@ -144,10 +120,10 @@ export default function Beranda() {
       <section className="wrap section">
         <Reveal className="cta-band">
           <div>
-            <h2>Punya gambar barang besi?</h2>
-            <p>Kirim sketsanya. Kami hitung, kami tempa, kami kirim.</p>
+            <h2>Siapkan spesifikasi alatmu.</h2>
+            <p>Jenis · ukuran · jumlah · gambar acuan</p>
           </div>
-          <Link to="/pesan" className="btn">Mulai Pesan <span aria-hidden="true">→</span></Link>
+          <Link to="/pesan" className="btn">Ajukan Pesanan <span aria-hidden="true">→</span></Link>
         </Reveal>
       </section>
     </>

@@ -1,8 +1,5 @@
 import { useEffect, useState } from 'react'
 import { NavLink, Outlet, Link, useLocation } from 'react-router-dom'
-import { DESA_URL, KATEGORI } from '../lib/config.js'
-import { Stamp } from './Effects.jsx'
-import { KONTAK } from '../data/demo.js'
 
 const MENU = [
   ['/karya', 'Koleksi'],
@@ -51,46 +48,30 @@ export default function Layout() {
         <Outlet />
       </main>
 
-      <footer className="footer">
+      <footer className="footer footer-simple">
         <div className="wrap">
-          <div className="footer-top">
+          <div className="footer-simple-grid">
             <div className="footer-brand">
-              <Stamp className="footer-stamp" />
               <div>
                 <strong className="footer-logo">PANDE</strong>
-                <p>Bengkel tempa Kelompok Pengrajin Pande Besi <b>Gayeng Ruyeng</b>. Ditempa dari besi bekas, dibuat sesuai pesanan.</p>
+                <p>Alat tempa dari Pasir Wetan, Banyumas.</p>
               </div>
             </div>
             <div className="footer-col">
-              <h4>Kategori</h4>
-              {KATEGORI.map((k) => <Link key={k.kategori} to={`/karya?kategori=${k.kategori}`}>{k.label}</Link>)}
+              <h4>Jelajahi</h4>
+              <Link to="/karya">Koleksi</Link><Link to="/pengrajin">Pengrajin</Link><Link to="/desa">Desa Pasir Wetan</Link>
             </div>
             <div className="footer-col">
-              <h4>Layanan</h4>
-              <Link to="/pesan">Pesan barang</Link>
-              <Link to="/cara-kerja">Cara kerja</Link>
-              <Link to="/status">Cek status pesanan</Link>
-              <Link to="/aturan">Aturan pesanan</Link>
-              <Link to="/dampak">Dampak</Link>
+              <h4>Pesanan</h4>
+              <Link to="/pesan">Ajukan pesanan</Link><Link to="/status">Cek status</Link><Link to="/cara-kerja">Cara kerja</Link>
             </div>
             <div className="footer-col">
-              <h4>Desa</h4>
-              <Link to="/desa">Jelajahi Pasir Wetan</Link>
-              <a href={DESA_URL} target="_blank" rel="noreferrer">Website Desa ↗</a>
-              <address>Desa Pasir Wetan, Kec. Karanglewas,<br />Kab. Banyumas, Jawa Tengah</address>
-            </div>
-            <div className="footer-col">
-              <h4>Kontak</h4>
-              <span>{KONTAK.narahubung}</span>
-              <a href={`https://wa.me/${KONTAK.wa}`} target="_blank" rel="noreferrer">{KONTAK.telepon}</a>
-              <a href={`mailto:${KONTAK.email}`}>{KONTAK.email}</a>
-              <a href={`https://instagram.com/${KONTAK.instagram}`} target="_blank" rel="noreferrer">@{KONTAK.instagram}</a>
+              <h4>Tim pengembang</h4>
+              <span className="footer-team">Lomba Sekampung</span>
             </div>
           </div>
           <div className="footer-bottom">
-            <span>© {new Date().getFullYear()} PANDE · Tempa Pasir Wetan</span>
-            <span className="mono">ME FECIT PASIR WETAN</span>
-            <Link to="/admin">Admin</Link>
+            <Link to="/aturan">Aturan pesanan</Link><Link to="/admin">Akses pengelola ↗</Link>
           </div>
         </div>
       </footer>

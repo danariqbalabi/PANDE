@@ -3,15 +3,14 @@ import { Link } from 'react-router-dom'
 import { Anvil, ChefKnife } from './ToolArt.jsx'
 
 const STEPS = [
-  { title: 'Ceritakan idemu', label: 'Pesan', note: 'MULAI DARI KEBUTUHAN', text: 'Barang apa yang ingin dibuat? Isi jenis, ukuran, dan jumlahnya. Foto atau sketsa bisa dilanjutkan lewat WhatsApp.', fields: ['Jenis barang', 'Ukuran & jumlah', 'Foto / sketsa'], mark: 'SKETSA AWAL' },
-  { title: 'Hitung dulu, sepakati', label: 'Estimasi', note: 'DIBICARAKAN BERSAMA', text: 'Kamu mendapat kisaran awal. Setelah melihat detail kebutuhanmu, pengrajin mengonfirmasi harga final.', fields: ['Bahan + pengerjaan', 'Finishing', 'Harga disepakati'], mark: 'CEK RINCIAN' },
-  { title: 'DP masuk, siap dikerjakan', label: 'DP', note: 'SEBELUM MULAI PRODUKSI', text: 'Setelah harga disepakati, bayar uang muka lewat transfer dan konfirmasikan ke pengelola melalui WhatsApp.', fields: ['Harga final', 'Konfirmasi DP', 'Pembagian pekerjaan'], mark: 'SIAP TEMPA' },
-  { title: 'Giliran tangan pengrajin', label: 'Ditempa', note: 'DI BENGKEL PASIR WETAN', text: 'Bahan dibentuk, ditempa, lalu dirapikan. Foto proses bisa kamu terima lewat WhatsApp sebelum barang dikirim.', fields: ['Pembentukan', 'Finishing', 'Pengecekan mutu'], mark: 'DALAM PROSES' },
-  { title: 'Dari bengkel ke rumahmu', label: 'Dikirim', note: 'SETELAH PENGECEKAN MUTU', text: 'Barang yang lolos pengecekan diberi cap PASIR WETAN dan paspor QR, lalu dikemas untuk dikirim.', fields: ['Cap PASIR WETAN', 'Paspor produk', 'Pengemasan & kirim'], mark: 'SIAP BERANGKAT' },
-  { title: 'Dipakai. Dirawat. Diulang.', label: 'Purna jual', note: 'CERITANYA MASIH LANJUT', text: 'Simpan paspor produknya. Scan QR untuk membaca cara perawatan, menghubungi layanan asah, atau memesan lagi.', fields: ['Petunjuk perawatan', 'Servis / asah ulang', 'Pesan kembali'], mark: 'PANJANG UMUR' },
+  { label: 'Kirim spesifikasi', drawing: 0, note: 'KEBUTUHAN ALAT', text: 'Isi jenis, ukuran, dan jumlah. Kirim gambar acuan lewat WhatsApp.', fields: ['Fungsi alat', 'Ukuran & jumlah', 'Foto / sketsa'], mark: 'SPESIFIKASI' },
+  { label: 'Konfirmasi harga & DP', drawing: 1, note: 'PERSETUJUAN SEBELUM PRODUKSI', text: 'Sepakati harga dan waktu pengerjaan dengan pengrajin, lalu konfirmasikan DP.', fields: ['Harga final', 'Waktu pengerjaan', 'Konfirmasi DP'], mark: 'KESEPAKATAN' },
+  { label: 'Produksi', drawing: 3, note: 'PENGERJAAN DI BENGKEL', text: 'Alat ditempa, dirapikan, dan dicek sesuai spesifikasi yang disepakati.', fields: ['Pembentukan', 'Finishing', 'Pengecekan mutu'], mark: 'PENGERJAAN' },
+  { label: 'Pengiriman', drawing: 4, note: 'SETELAH LOLOS PENGECEKAN', text: 'Barang diberi identitas dan paspor QR, lalu dikemas untuk pengiriman.', fields: ['Identitas produk', 'Paspor QR', 'Pengemasan'], mark: 'PENGIRIMAN' },
+  { label: 'Perawatan & servis', drawing: 5, note: 'LAYANAN SETELAH PEMBELIAN', text: 'Scan paspor untuk panduan perawatan atau hubungi layanan asah dan perbaikan.', fields: ['Panduan perawatan', 'Asah ulang', 'Perbaikan'], mark: 'PURNA JUAL' },
 ]
 
-function ProcessDrawing({ step }) {
+export function ProcessDrawing({ step }) {
   if (step === 3) return <div className="journey-anvil"><Anvil /><span className="forge-spark spark-one" /><span className="forge-spark spark-two" /><span className="forge-spark spark-three" /></div>
   if (step === 5) return <div className="journey-care"><ChefKnife /><span className="care-orbit" /><span className="care-caption">RAWAT & PAKAI LAGI ↻</span></div>
   return (
@@ -46,23 +45,22 @@ export default function OrderJourney() {
   return (
     <section className="wrap section order-journey" aria-labelledby={`${uid}-title`}>
       <header className="journey-heading">
-        <div><span className="workshop-index">02 / CARA PESAN</span><h2 id={`${uid}-title`}>Idemu masuk.<br /><em>Hasilnya kamu pakai.</em></h2></div>
-        <p>Enam langkah dari obrolan pertama<br />sampai alatnya ada di tanganmu.</p>
+        <div><span className="workshop-index">02 / CARA PESAN</span><h2 id={`${uid}-title`}>Alur pemesanan</h2></div>
+        <p>Spesifikasi → Harga & DP → Produksi → Kirim → Servis</p>
       </header>
       <div className="journey-layout">
         <div className="journey-preview" aria-hidden="true">
           <div className="journey-paper">
             <div className="journey-paper-head"><span>PANDE / CATATAN PESANAN</span><span>↗</span></div>
             <div key={active} className="journey-paper-body">
-              <div className="journey-paper-title"><span>TAHAP</span><strong>{String(active + 1).padStart(2, '0')}</strong><span>/ 06</span></div>
-              <ProcessDrawing step={active} />
+              <div className="journey-paper-title"><span>TAHAP</span><strong>{String(active + 1).padStart(2, '0')}</strong><span>/ {String(STEPS.length).padStart(2, '0')}</span></div>
+              <ProcessDrawing step={step.drawing} />
               <span className="journey-paper-note">{step.note}</span>
               <div className="journey-field-list">{step.fields.map((field) => <div key={field}><i />{field}</div>)}</div>
               <span className="journey-ink-stamp">{step.mark}</span>
             </div>
             <div className="journey-paper-foot"><span>PASIR WETAN, BANYUMAS</span><span>•••</span></div>
           </div>
-          <span className="journey-paper-caption">Begini perjalanan pesananmu.</span>
         </div>
         <div className="journey-ledger">
           <div className="journey-ledger-head"><span>URUTAN PENGERJAAN</span><span>KLIK UNTUK LIHAT DETAIL ↓</span></div>
@@ -72,12 +70,12 @@ export default function OrderJourney() {
                 <span className="journey-step-no">{String(i + 1).padStart(2, '0')}</span><span className="journey-step-label">{item.label}</span><span className="journey-step-icon" aria-hidden="true">{active === i ? '−' : '+'}</span>
               </button>
               <div id={`${uid}-detail-${i}`} role="region" aria-labelledby={`${uid}-step-${i}`} hidden={active !== i}>
-                <h3>{item.title}</h3><p>{item.text}</p>
-                {i === 0 && <Link className="journey-start" to="/pesan">Mulai pesananmu <span aria-hidden="true">↗</span></Link>}
+                <p>{item.text}</p>
+                {i === 0 && <Link className="journey-start" to="/pesan">Ajukan pesanan <span aria-hidden="true">↗</span></Link>}
               </div>
             </li>)}
           </ol>
-          <div className="journey-navigation"><span>{String(active + 1).padStart(2, '0')} <span>/ 06</span></span><div><button type="button" disabled={active === 0} onClick={() => setActive((n) => n - 1)} aria-label="Lihat tahap sebelumnya">←</button><button type="button" disabled={active === 5} onClick={() => setActive((n) => n + 1)} aria-label="Lihat tahap berikutnya">→</button></div></div>
+          <div className="journey-navigation"><span>{String(active + 1).padStart(2, '0')} <span>/ {String(STEPS.length).padStart(2, '0')}</span></span><div><button type="button" disabled={active === 0} onClick={() => setActive((n) => n - 1)} aria-label="Lihat tahap sebelumnya">←</button><button type="button" disabled={active === STEPS.length - 1} onClick={() => setActive((n) => n + 1)} aria-label="Lihat tahap berikutnya">→</button></div></div>
         </div>
       </div>
       <footer className="journey-bottom"><span>ALAT KERJA · RUMAH TANGGA · DEKORASI</span><Link to="/aturan">Baca aturan pesanan ↗</Link></footer>

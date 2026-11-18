@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom'
 import { useData } from '../lib/useData.js'
 import { Muat } from '../components/Ui.jsx'
 import { Anvil } from '../components/ToolArt.jsx'
-import { Reveal, Counter, Stamp } from '../components/Effects.jsx'
+import { Reveal, Stamp } from '../components/Effects.jsx'
+import PageIntro from '../components/PageIntro.jsx'
 import { DEMO_PENGRAJIN } from '../data/demo.js'
 import './pengrajin.css'
 
@@ -41,38 +42,23 @@ export default function Pengrajin() {
 
   const opsi = useMemo(() => {
     const set = new Set()
-    for (const p of urutPengrajin(state.data ?? [])) if (p.peran) set.add(p.peran)
+    for (const p of state.data ?? []) for (const skill of p.keahlian ?? []) set.add(skill)
     return [...set]
   }, [state.data])
 
   const q = cari.trim().toLowerCase()
   const tersaring = urutPengrajin(state.data ?? []).filter((p) =>
-    (!pilih || p.peran === pilih) && (!q || p.nama.toLowerCase().includes(q)))
+    (!pilih || p.keahlian?.includes(pilih)) && (!q || [p.nama, ...(p.keahlian ?? [])].some((value) => value.toLowerCase().includes(q))))
 
   return (
     <div className="pgr">
-      <header className="pgr-hero wrap">
-        <Reveal>
-          <small className="label">Gayeng Ruyeng · Desa Pasir Wetan</small>
-          <h1>Tangan di balik setiap tempaan</h1>
-          <p className="pgr-lead">
-            Gayeng Ruyeng berdiri 10 Maret 2020, dihimpun dari 16 UMKM pande besi di Desa Pasir Wetan,
-            Karanglewas, Banyumas. Kini 20 anggota menempa per daun kendaraan bekas menjadi alat dapur,
-            alat tani, dan perkakas, dengan keterampilan yang diwariskan turun-temurun. Kelompok ini
-            didampingi YDBA.
-          </p>
-        </Reveal>
-        <dl className="pgr-stats">
-          <div><dt><Counter value={20} /></dt><dd>anggota</dd></div>
-          <div><dt>2020</dt><dd>berkelompok sejak</dd></div>
-          <div><dt><Counter value={2} /></dt><dd>dusun</dd></div>
-        </dl>
-      </header>
+      <PageIntro code="02 / PENGRAJIN" title="Direktori pengrajin" description="Lihat profil dan keahlian anggota Gayeng Ruyeng. Pilihan pengrajin dikonfirmasi sesuai kapasitas pengerjaan."
+        meta={[["Profil tersedia", state.loading ? '—' : (state.data?.length ?? 0)], ['Kelompok', 'Gayeng Ruyeng'], ['Lokasi', 'Pasir Wetan, Banyumas']]} />
 
       <section className="wrap pgr-direktori" aria-labelledby="pgr-dir">
-        <h2 id="pgr-dir" className="pgr-h2">Kenali pengrajinnya</h2>
+        <div className="directory-heading"><h2 id="pgr-dir" className="pgr-h2">Anggota & keahlian</h2><span aria-live="polite">{state.loading ? 'Memuat…' : `${tersaring.length} profil`}</span></div>
         <div className="pgr-alat">
-          <div className="chips" role="group" aria-label="Saring menurut peran">
+          <div className="chips" role="group" aria-label="Saring menurut keahlian">
             <button type="button" className={`chip${!pilih ? ' on' : ''}`} aria-pressed={!pilih} onClick={() => setPilih(null)}>Semua</button>
             {opsi.map((o) => (
               <button key={o} type="button" className={`chip${pilih === o ? ' on' : ''}`} aria-pressed={pilih === o} onClick={() => setPilih(pilih === o ? null : o)}>{o}</button>
@@ -80,7 +66,7 @@ export default function Pengrajin() {
           </div>
           <label className="pgr-cari">
             <span className="sr-only">Cari nama pengrajin</span>
-            <input type="search" placeholder="Cari nama…" value={cari} onChange={(e) => setCari(e.target.value)} />
+            <input type="search" placeholder="Cari nama atau keahlian…" aria-label="Cari nama atau keahlian pengrajin" value={cari} onChange={(e) => setCari(e.target.value)} />
           </label>
         </div>
 
@@ -120,21 +106,21 @@ export default function Pengrajin() {
         <div className="wrap pgr-cara-in">
           <div>
             <small className="label">Kerja kelompok</small>
-            <h2 id="pgr-cara" className="pgr-h2">Cara kami bekerja sebagai kelompok</h2>
+            <h2 id="pgr-cara" className="pgr-h2">Pembagian pekerjaan</h2>
           </div>
           <ol className="pgr-langkah">
-            <Reveal as="li"><b>Dibagi sesuai keahlian</b><p>Setiap pesanan dicocokkan dengan peta keahlian anggota: pisau ke penempa bilah, cangkul dan sabit ke penempa alat tani, engsel dan dekor ke penempa perkakas.</p></Reveal>
-            <Reveal as="li" delay={90}><b>Penempa dan pengasah</b><p>Satu barang bisa melewati dua tangan: penempa membentuk bilah dari baja per bekas, pengasah menajamkan, memasang gagang, dan merapikan.</p></Reveal>
-            <Reveal as="li" delay={180}><b>Dicap setelah lolos cek</b><p>Barang yang lolos pemeriksaan mutu diberi cap PASIR WETAN. Kalau masih ragu, tidak dicap dulu.</p></Reveal>
+            <Reveal as="li"><b>Keahlian</b><p>Pelaksana disesuaikan dengan jenis dan spesifikasi alat.</p></Reveal>
+            <Reveal as="li" delay={90}><b>Kapasitas</b><p>Pengelola mengonfirmasi ketersediaan dan waktu pengerjaan.</p></Reveal>
+            <Reveal as="li" delay={180}><b>Mutu</b><p>Barang diperiksa sebelum diberi cap dan paspor.</p></Reveal>
           </ol>
           <Stamp className="pgr-cap" />
         </div>
       </section>
 
       <section className="wrap pgr-cta">
-        <h2 className="pgr-h2">Punya pesanan khusus? Pilih pengrajinnya</h2>
-        <p className="muted">Ceritakan barang yang Anda butuhkan, kami teruskan ke anggota yang paling cocok.</p>
-        <Link to="/pesan" className="btn">Mulai pesan</Link>
+        <h2 className="pgr-h2">Belum menentukan pengrajin?</h2>
+        <p className="muted">Ajukan spesifikasi. Pengelola membantu mencocokkan pelaksana.</p>
+        <Link to="/pesan" className="btn">Ajukan pesanan</Link>
       </section>
     </div>
   )

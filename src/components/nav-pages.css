@@ -1,0 +1,76 @@
+/* Shared page furniture: reference numbers, ruled lists, technical records. */
+.navpage-intro { padding: 124px 0 38px; border-bottom: 1px solid #cabcaa; background: var(--cream); }
+.navpage-breadcrumb { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; border-bottom: 1px solid #cabcaa; padding-bottom: 15px; margin-bottom: 28px; font: .58rem var(--mono); letter-spacing: .1em; color: #8b7963; }
+.navpage-breadcrumb a { text-decoration: none; color: var(--ink); }.navpage-breadcrumb > span:last-child { margin-left: auto; }
+.navpage-heading { display: grid; grid-template-columns: 1.7fr 1fr; gap: 48px; align-items: end; }
+.navpage-heading h1 { font-size: clamp(2.3rem, 4.5vw, 3.8rem); line-height: 1.04; margin: 0 0 16px; max-width: 19ch; }
+.navpage-heading p { margin: 0; max-width: 51ch; font-size: .95rem; color: var(--muted); line-height: 1.65; }
+.navpage-heading .actions { margin-top: 22px; }
+.navpage-meta { margin: 0; border-left: 2px solid var(--ember); padding: 0 0 0 22px; }
+.navpage-meta > div { display: grid; grid-template-columns: 115px 1fr; gap: 14px; padding: 10px 0; border-bottom: 1px solid var(--line); align-items: baseline; }
+.navpage-meta dt { font: .57rem var(--mono); text-transform: uppercase; color: var(--muted); }.navpage-meta dd { font-size: .76rem; margin: 0; }
+.navpage-text-link { display: inline-block; font-size: .78rem; color: var(--ember-ink); text-decoration: none; }
+.directory-heading { display: flex; gap: 20px; justify-content: space-between; align-items: baseline; border-bottom: 1px solid #a99b87; padding-bottom: 15px; margin-bottom: 22px; }
+.directory-heading h2 { font-size: 1.5rem; margin: 0; }.directory-heading > span { font: .62rem var(--mono); color: var(--muted); }
+
+/* Collection specifications. */
+.kk-specs { margin: 8px 0 10px; border-top: 1px solid var(--line); padding-top: 8px; }
+.kk-specs > div { display: grid; grid-template-columns: 43px 1fr; gap: 7px; padding-block: 3px; font-size: .75rem; line-height: 1.5; }
+.kk-specs dt { color: var(--muted); }.kk-specs dd { margin: 0; overflow-wrap: anywhere; }
+.kk-main .kk-card { border-radius: 3px; }.kk-main .kk-card:hover { transform: translateY(-3px); border-color: #ad9472; box-shadow: none; }
+.kk-main .kk-body h3 { font-size: 1.1rem; }.kk-main .kk-maker { font-size: .65rem; }
+.kk-main .kk-foto { border-bottom: 1px solid var(--line); }
+
+/* Directory cards retain the original portrait layout in pengrajin.css. */
+.pgr .pgr-cara { padding-block: 48px; }.pgr .pgr-cap { display: none; }.pgr .pgr-langkah p { font-size: .85rem; }
+.pgr .pgr-cta { padding-block: 48px; border-bottom: 1px solid var(--line); }.pgr .pgr-cta p { font-size: .9rem; }
+
+/* Work instructions and product reference images. */
+.ck .ck-langkah { padding-top: 40px; gap: 35px; grid-template-columns: 205px 1fr; }
+.ck .ck-list { gap: 0; }.ck .ck-list > li { padding: 26px 0; border-bottom: 1px solid #cabcaa; gap: 24px; grid-template-columns: 1fr 150px; }
+.ck .ck-list > li:first-child { padding-top: 0; }.ck .ck-list > li.balik .ck-teks { order: 0; }
+.ck .ck-teks h2 { font-size: 1.6rem; }.ck .ck-teks p { font-size: .86rem; margin-bottom: 10px; }
+.ck .ck-teks ul { gap: 0; margin-top: 12px; }.ck .ck-teks ul li { border: 0; background: none; border-top: 1px solid var(--line); border-radius: 0; padding: 8px 0; font-size: .74rem; }
+.ck .ck-no { border-radius: 0; padding: 0; background: none; font-size: .58rem; margin-bottom: 9px; }
+.ck .ck-foto { border: 1px solid #cabcaa; background: var(--surface); padding: 6px; }
+.ck .ck-foto img { aspect-ratio: 1; border-radius: 0; box-shadow: none; object-fit: contain; }.ck .ck-foto span { display: block; padding-top: 8px; font: .5rem var(--mono); color: var(--muted); letter-spacing: .05em; }
+.ck .ck-rail a { font-size: .73rem; padding-inline: 9px; }.ck .ck-rail a span { border-radius: 2px; }
+.ck .ck-nilai { margin-top: 24px; padding-block: 45px; }.ck .ck-nilai-grid { gap: 0; margin-top: 24px; }
+.ck .ck-nilai-grid > div { border: 0; border-top: 1px solid #ffffff30; border-radius: 0; background: none; padding: 20px 22px 0 0; }
+.ck .ck-nilai-grid p { font-size: .85rem; }.ck .ck-faq { padding-top: 48px; }.ck .ck-faq details { border-radius: 2px; }.ck .ck-faq summary { font-size: .9rem; }.ck .ck-faq details p { font-size: .84rem; }
+
+/* Tracking: instructions and customer verification. */
+.status-workspace { display: grid; grid-template-columns: .75fr 1.25fr; gap: 64px; padding-top: 48px; padding-bottom: 80px; align-items: start; }
+.status-guide h2 { font-size: 1.8rem; margin: 20px 0; }.status-guide ol { padding-left: 18px; font-size: .83rem; color: var(--muted); line-height: 1.8; }.status-guide li { padding: 7px 0; }
+.status-guide > a { display: block; padding: 7px 0; }
+.status-docket { border: 1px solid #b5a78f; background: var(--surface); min-width: 0; }
+.status-docket-head { display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between; padding: 16px 24px; background: #e9e1d2; border-bottom: 1px solid #b5a78f; font: .52rem var(--mono); letter-spacing: .08em; }
+.status-docket form { padding: 28px; }.status-docket .form input { border-radius: 2px; }
+.status-awaiting { padding: 35px 24px; border-top: 1px dashed #cabcaa; text-align: center; color: var(--muted); }.status-awaiting > span { font-size: 2rem; color: #a08c6d; }.status-awaiting p { font-size: .76rem; max-width: 33ch; margin: 10px auto 0; }
+.status-result { border-top: 1px solid #b5a78f; padding: 26px; }.status-result h3 { font-size: 1.2rem; }.status-result .dl { font-size: .8rem; }
+
+/* Village origin plate and local directory. */
+.village-workspace { display: grid; grid-template-columns: .8fr 1.2fr; gap: 56px; padding-top: 48px; padding-bottom: 72px; align-items: start; }
+.village-origin { background: #272b25; color: #e4e5d7; padding: 24px; border: 1px solid #404b3b; position: relative; }
+.village-origin-head { display: flex; justify-content: space-between; gap: 15px; font: .52rem var(--mono); letter-spacing: .1em; border-bottom: 1px solid #ffffff30; padding-bottom: 14px; }
+.village-anvil { display: block; width: 75%; max-height: 170px; margin: 25px auto 10px; opacity: .85; }
+.village-origin h2 { font-size: clamp(2.5rem, 5vw, 4rem); line-height: .95; letter-spacing: -.03em; margin-bottom: 25px; }
+.village-origin h2 span { display: block; margin-top: 16px; font: .58rem var(--mono); letter-spacing: .2em; color: #abb49e; }
+.village-origin p { font-size: .8rem; color: #b7bdad; max-width: 35ch; }.village-origin > a { display: inline-block; font-size: .76rem; color: #e7bb87; border-bottom: 1px solid #e7bb8750; text-decoration: none; padding-bottom: 5px; }
+.village-entry { display: grid; grid-template-columns: 32px 1fr; gap: 15px; border-bottom: 1px solid #cabcaa; padding: 24px 0; }
+.village-no { font: .65rem var(--mono); color: var(--ember-ink); padding-top: 4px; }.village-entry small { font: .5rem var(--mono); letter-spacing: .1em; color: var(--muted); }
+.village-entry h3 { margin: 9px 0; font-size: 1.6rem; }.village-entry p { font-size: .84rem; color: var(--muted); max-width: 42ch; margin: 0 0 12px; }.village-entry a { font-size: .72rem; text-decoration: none; }
+.village-note { font-size: .72rem; color: var(--muted); margin-top: 22px; max-width: 50ch; }
+@media (max-width: 860px) {
+  .navpage-intro { padding-top: 104px; }.navpage-heading { grid-template-columns: 1fr; gap: 24px; }
+  .navpage-meta { display: flex; flex-wrap: wrap; gap: 15px 25px; padding-left: 15px; }.navpage-meta > div { display: block; border: 0; padding: 0; }.navpage-meta dd { margin-top: 7px; }
+  .ck .ck-langkah { grid-template-columns: 1fr; }.ck .ck-rail { display: none; }
+  .status-workspace, .village-workspace { gap: 28px; grid-template-columns: 1fr; }.status-guide { max-width: 55ch; }
+  .village-origin { display: grid; grid-template-columns: 1fr 1fr; column-gap: 30px; }.village-origin-head { grid-column: 1/-1; }.village-anvil { grid-column: 2; grid-row: 2 / span 2; align-self: center; }.village-origin h2 { margin-top: 24px; }.village-origin p, .village-origin > a { grid-column: 1 / -1; }
+}
+@media (max-width: 560px) {
+  .navpage-breadcrumb > span:last-child { display: none; }.navpage-meta dt { font-size: .5rem; }.navpage-meta dd { font-size: .65rem; }
+  .ck .ck-list > li { grid-template-columns: 1fr 86px; gap: 14px; }.ck .ck-teks h2 { font-size: 1.3rem; }.ck .ck-foto span { font-size: .35rem; }
+  .status-workspace, .village-workspace { padding-top: 28px; }.status-docket form { padding: 22px; }.status-docket .row2 { grid-template-columns: 1fr; }
+  .directory-heading h2 { font-size: 1.25rem; }.village-entry h3 { font-size: 1.4rem; }
+}

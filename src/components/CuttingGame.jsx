@@ -82,7 +82,7 @@ export default forwardRef(function CuttingGame({ onCut }, ref) {
       ctx.clearRect(0, 0, width, height)
       spawn -= dt
       if (spawn <= 0 && w.blocks.length < 8) {
-        w.blocks.push({ x: width * (.15 + Math.random() * .7), y: -35, size: Math.min(54, width * .13), metal: Math.random() > .5, vy: reducedMotion ? 45 : 65 + Math.random() * 45, rotation: Math.random() * 2, spin: (Math.random() - .5) * 1.2 })
+        w.blocks.push({ x: width * (.15 + Math.random() * .7), y: -35, size: Math.min(54, width * .13), metal: true, vy: reducedMotion ? 45 : 65 + Math.random() * 45, rotation: Math.random() * 2, spin: (Math.random() - .5) * 1.2 })
         spawn = reducedMotion ? 1.6 : .75
       }
       for (const b of w.blocks) {

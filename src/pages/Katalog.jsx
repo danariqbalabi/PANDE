@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { useData, SELECT_KARYA } from '../lib/useData.js'
 import { Muat, FotoKarya } from '../components/Ui.jsx'
-import { KnifeSet } from '../components/ToolArt.jsx'
+import PageIntro from '../components/PageIntro.jsx'
 import { Reveal } from '../components/Effects.jsx'
 import { KATEGORI, JENIS, labelJenis, FINISHING, labelFinishing } from '../lib/config.js'
 import { kisaran, rupiah } from '../lib/format.js'
@@ -24,7 +24,12 @@ export function KartuKoleksi({ k, delay = 0 }) {
         <div className="kk-body">
           <h3>{k.nama}</h3>
           {k.jenis && <p className="kk-jenis">{labelJenis(k.jenis)}</p>}
-          <p className="kk-maker"><i aria-hidden="true" />Ditempa: {k.pengrajin?.nama ?? 'Kelompok Gayeng Ruyeng'}</p>
+          <dl className="kk-specs">
+            {k.baja && <div><dt>Bahan</dt><dd>{k.baja}</dd></div>}
+            {(k.ukuran || k.panjang_mm) && <div><dt>Ukuran</dt><dd>{k.ukuran || `${k.panjang_mm} mm`}</dd></div>}
+            {k.berat_gram && <div><dt>Berat</dt><dd>{k.berat_gram} g</dd></div>}
+          </dl>
+          {k.pengrajin?.nama && <p className="kk-maker">{k.pengrajin.nama}</p>}
           <div className="kk-foot">
             <span className="kk-harga">{kisaran(k.harga_mulai, k.harga_sampai)}</span>
             {k.panjang_mm && <span className="kk-pjg">{k.panjang_mm} mm</span>}
@@ -94,7 +99,7 @@ export default function Katalog() {
       // kisaran harga barang harus beririsan dengan rentang filter
       (min == null || (k.harga_sampai ?? k.harga_mulai) >= min) &&
       (max == null || (k.harga_mulai ?? k.harga_sampai) <= max) &&
-      (!q || [k.nama, k.jenis && labelJenis(k.jenis), k.pengrajin?.nama, k.pengasah?.nama].some((t) => t?.toLowerCase().includes(q))))
+      (!q || [k.nama, k.jenis && labelJenis(k.jenis), k.baja, k.ukuran, k.deskripsi, k.pengrajin?.nama, k.pengasah?.nama].some((t) => t?.toLowerCase().includes(q))))
     return PEMBANDING[f.urut] ? [...out].sort(PEMBANDING[f.urut]) : out
   }, [semua, params]) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -132,15 +137,8 @@ export default function Katalog() {
 
   return (
     <>
-      <header className="kk-hero">
-        <KnifeSet className="kk-hero-art" />
-        <div className="wrap kk-hero-isi">
-          <small className="label on-dark">Koleksi · Pande Besi Pasir Wetan</small>
-          <h1>Koleksi Tempa</h1>
-          <p>Semua barang di sini ditempa tangan oleh kelompok pande besi Gayeng Ruyeng di Desa Pasir Wetan, Banyumas. Bahannya baja per kendaraan dan besi bekas yang dipanaskan, ditempa, dan disepuh ulang menjadi alat yang siap kerja lagi.</p>
-          <p className="kk-hero-kredit">Setiap barang dicantumkan siapa penempa dan pengasahnya.</p>
-        </div>
-      </header>
+      <PageIntro code="01 / KOLEKSI" title="Katalog alat tempa" description="Bandingkan fungsi, bahan, ukuran, dan harga. Gunakan produk sebagai acuan pesanan."
+        meta={[["Produk tercatat", state.loading ? '—' : semua.length], ['Harga custom', 'Konfirmasi pengrajin'], ['Ukuran khusus', 'Ajukan spesifikasi']]} />
 
       <div className="wrap kk-section">
         <div className="kk-layout">
@@ -174,7 +172,7 @@ export default function Katalog() {
                 Filter{chip.length > 0 && ` (${chip.length})`}
               </button>
               <p className="kk-jumlah" aria-live="polite">{state.loading ? 'Memuat…' : `${hasil.length} barang`}</p>
-              <input type="search" className="kk-cari" placeholder="Cari nama, jenis, pengrajin…" aria-label="Cari barang" value={f.q} onChange={(e) => set('q', e.target.value)} />
+              <input type="search" className="kk-cari" placeholder="Cari alat, bahan, ukuran…" aria-label="Cari alat, bahan, atau ukuran" value={f.q} onChange={(e) => set('q', e.target.value)} />
               <label className="kk-urut">
                 <span>Urutkan</span>
                 <select value={f.urut} onChange={(e) => set('urut', e.target.value)}>
@@ -199,7 +197,7 @@ export default function Katalog() {
                 <div className="kk-grid">{hasil.map((k, i) => <KartuKoleksi key={k.id} k={k} delay={(i % 3) * 80} />)}</div>
               ) : (
                 <div className="kk-kosong">
-                  <p><b>Belum ada barang yang cocok.</b><br />Coba kurangi filter, atau ceritakan barang yang kamu mau. Pengrajin kami bisa menempanya khusus.</p>
+                  <p><b>Produk tidak ditemukan.</b><br />Ubah filter atau ajukan spesifikasi untuk dicek pengrajin.</p>
                   <div className="kk-kosong-aksi">
                     <button type="button" className="btn ghost kecil" onClick={reset}>Reset filter</button>
                     <Link to="/pesan?kategori=khusus" className="btn kecil">Pesan Khusus</Link>
@@ -213,8 +211,8 @@ export default function Katalog() {
         <Reveal className="kk-cta">
           <div>
             <small className="label">Pesanan khusus</small>
-            <h2>Tidak menemukan yang kamu cari? Kirim sketsamu</h2>
-            <p>Foto, gambar tangan, atau ukuran kasar sudah cukup. Pengrajin kami akan menghubungi untuk memastikan bentuk dan harga.</p>
+            <h2>Butuh ukuran atau bentuk lain?</h2>
+            <p>Kirim fungsi alat, ukuran, jumlah, dan gambar acuan.</p>
           </div>
           <Link to="/pesan?kategori=khusus" className="btn">Kirim sketsa →</Link>
         </Reveal>

@@ -6,6 +6,7 @@ import { kisaran, waLink } from '../lib/format.js'
 import { KATEGORI } from '../lib/config.js'
 import { useData } from '../lib/useData.js'
 import { DEMO_PENGRAJIN } from '../data/demo.js'
+import OrderCode from '../components/OrderCode.jsx'
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 
@@ -44,6 +45,7 @@ export default function Pesan() {
           <p>Kode pesanan kamu:</p>
           <p className="kode">{h.kode}</p>
           <p>Simpan kode ini untuk <Link to="/status">cek status</Link>.</p>
+          <OrderCode code={h.kode} />
           <p><strong>Perkiraan awal:</strong> {kisaran(h.estimasi_min, h.estimasi_max)}<br />
             <span className="muted">Harga final dikonfirmasi pengrajin setelah melihat foto/sketsa.</span></p>
           {wa
