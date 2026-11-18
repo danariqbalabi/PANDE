@@ -1,0 +1,7 @@
+{
+  "mode": "built-in image_gen",
+  "input": "User-supplied PANDE hammer logo with white wordmark",
+  "prompt": "Use case: background-extraction. Edit target: the user's attached horizontal PANDE logo with WHITE PANDE letters and an orange smiling hammer mascot and sparkle. Export this exact provided logo with real alpha transparency. Preserve the white PANDE wordmark including its handmade slightly distressed treatment, the orange smiling hammer, dark brown handle, sparkle, proportions and layout. Do not redesign or recolor any logo element. Remove only background if any; the dark areas INSIDE the hammer mascot such as eyes, mouth and handle must remain intact. No opaque black rectangle, no cream or white background, no badge, no frame. The white letters must stay white so this logo can be placed directly on a charcoal website header.",
+  "assets": ["public/brand/logo-pande-white.png", "public/brand/icon-pande-transparent.png"],
+  "preparation": "Trim transparent padding and resize; use the hammer portion for the tab icon."
+}

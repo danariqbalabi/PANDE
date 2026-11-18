@@ -29,9 +29,8 @@ export default function Layout() {
       <a href="#isi" className="skip">Lewati ke isi</a>
       <header className={`header ${gulir || loc.pathname !== '/' ? 'solid' : ''}`}>
         <div className="wrap header-in">
-          <Link to="/" className="logo" aria-label="PANDE beranda">
-            <span className="logo-mark" aria-hidden="true" />
-            <span className="logo-text">PANDE<small>Tempa Pasir Wetan</small></span>
+          <Link to="/" className="logo logo-image" aria-label="PANDE beranda">
+            <img src="/brand/logo-pande-white.png" alt="PANDE" width="1400" height="307" />
           </Link>
           <button className="menu-btn" aria-expanded={buka} aria-controls="nav" onClick={() => setBuka(!buka)}>
             <span className={buka ? 'burger x' : 'burger'} aria-hidden="true"><i /><i /><i /></span>
@@ -53,7 +52,7 @@ export default function Layout() {
           <div className="footer-simple-grid">
             <div className="footer-brand">
               <div>
-                <strong className="footer-logo">PANDE</strong>
+                <Link to="/" className="footer-logo-image" aria-label="PANDE beranda"><img src="/brand/logo-pande-white.png" alt="PANDE" width="1400" height="307" /></Link>
                 <p>Alat tempa dari Pasir Wetan, Banyumas.</p>
               </div>
             </div>
