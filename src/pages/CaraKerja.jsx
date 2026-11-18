@@ -9,31 +9,31 @@ const LANGKAH = [
     judul: 'Ceritakan barang yang kamu butuhkan',
     isi: 'Pilih dari koleksi, atau kirim foto dan sketsa barang besi yang kamu mau: alat tani, pisau dapur, perkakas, sampai pesanan khusus.',
     poin: [['Dari koleksi', 'Klik "Pesan yang seperti ini" di barang yang kamu suka.'], ['Pesanan khusus', 'Isi ukuran dan kegunaan, lalu kirim sketsa lewat WhatsApp.']],
-    foto: '/karya/set-gr-sp.jpg',
+    foto: '/produk/set-gr-sp.jpg',
   },
   {
     judul: 'Dicocokkan dengan pengrajin yang tepat',
     isi: 'Gayeng Ruyeng punya 20 anggota dengan keahlian berbeda. Pesananmu diteruskan ke penempa yang paling cocok, atau kamu bisa memilih pengrajinnya sendiri.',
     poin: [['Sesuai keahlian', 'Pisau ke penempa bilah, cangkul dan kudi ke penempa alat tani.'], ['Pilih sendiri', 'Buka profil pengrajin lalu tekan "Pesan dari …".']],
-    foto: '/karya/kudi.jpg',
+    foto: '/produk/kudi.jpg',
   },
   {
     judul: 'Sepakati harga, lalu bayar DP',
     isi: 'Kamu dapat kisaran harga di awal. Setelah pengrajin melihat ukuran dan sketsa, harga final dikonfirmasi lewat WhatsApp. Produksi dimulai setelah DP.',
     poin: [['Tanpa perantara', 'Kamu bicara langsung dengan kelompok pengrajin.'], ['Transparan', 'Harga dihitung dari bahan, jam kerja, dan finishing.']],
-    foto: '/karya/chefs-knife.jpg',
+    foto: '/produk/chefs-knife.jpg',
   },
   {
     judul: 'Ditempa dari besi bekas, kamu bisa memantau',
     isi: 'Bilah ditempa dari baja per kendaraan bekas, disepuh, diasah, lalu dipasang gagang. Status pesanan bisa dicek kapan saja dengan kode pesanan.',
     poin: [['Cek status', 'Masukkan kode pesanan dan 4 digit akhir nomor HP.'], ['Foto proses', 'Pengrajin bisa mengirim foto proses tempa.']],
-    foto: '/karya/golok-sembelih.jpg',
+    foto: '/produk/golok-sembelih.jpg',
   },
   {
     judul: 'Diterima, dengan cap dan paspor produk',
     isi: 'Barang yang lolos cek mutu dicap PASIR WETAN dan diberi QR paspor: siapa penempanya, asal besinya, cara merawat, dan tombol untuk servis atau asah ulang.',
     poin: [['Purna jual', 'Scan QR untuk minta asah ulang atau pesan lagi.'], ['Kenali desanya', 'Paspor mengajakmu menjelajahi Desa Pasir Wetan.']],
-    foto: '/karya/sabit.jpg',
+    foto: '/produk/sabit.jpg',
   },
 ]
 
@@ -71,9 +71,9 @@ export default function CaraKerja() {
           </div>
         </div>
         <div className="ck-hero-foto" aria-hidden="true">
-          <img src="/karya/set-gr.jpg" alt="" className="f1" />
-          <img src="/karya/kudi.jpg" alt="" className="f2" />
-          <img src="/karya/golok-lubuk.jpg" alt="" className="f3" />
+          <img src="/produk/set-gr.jpg" alt="" className="f1" />
+          <img src="/produk/kudi.jpg" alt="" className="f2" />
+          <img src="/produk/golok-lubuk.jpg" alt="" className="f3" />
         </div>
       </section>
 

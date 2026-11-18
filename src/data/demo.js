@@ -27,7 +27,7 @@ const LABEL = { alat_tani: 'Alat Tani & Kebun', pertukangan: 'Pertukangan', dapu
 // k(slug, data): slug juga nama file foto di public/karya/
 const k = (slug, o) => ({
   id: slug, slug, tampil: true, unggulan: false, created_at: '2025-08-15',
-  foto_url: `/karya/${slug}.jpg`, deskripsi: null, ukuran: null, finishing: null,
+  foto_url: `/produk/${slug}.jpg`, deskripsi: null, ukuran: null, finishing: null,
   panjang_mm: null, berat_gram: null, baja: 'Baja per kendaraan bekas', gagang: null,
   harga_mulai: null, harga_sampai: null, pengrajin_id: null, pengasah_id: null,
   ...o,
@@ -80,7 +80,7 @@ export const DEMO_KARYA = [
   k('golok-sembelih', { nama: 'Golok Sembelih (per) + Sarung', kategori: 'alat_tani', jenis: 'golok_sembelih', ...harga(270000), panjang_mm: 350, berat_gram: 600,
     deskripsi: 'Alat sembelih hewan ternak, lengkap dengan sarung kayu.', ukuran: 'Bilah 35 × 5 cm, gagang 12 cm' }),
   k('golok-sembelih-bohler', { nama: 'Golok Sembelih (Bohler) + Sarung', kategori: 'alat_tani', jenis: 'golok_sembelih', ...harga(750000), panjang_mm: 350, berat_gram: 600,
-    foto_url: '/karya/golok-sembelih.jpg', baja: 'Baja Bohler',
+    foto_url: '/produk/golok-sembelih.jpg', baja: 'Baja Bohler',
     deskripsi: 'Versi baja Bohler dari golok sembelih, lengkap dengan sarung kayu.', ukuran: 'Bilah 35 × 5 cm, gagang 12 cm' }),
   k('garpu-t3', { nama: 'Garpu T-3', kategori: 'alat_tani', jenis: 'garpu', ...harga(65000), berat_gram: 2000,
     deskripsi: 'Alat penggembur tanah.', ukuran: 'Jari 30 × 18 cm, gagang 58 cm, T-fork 17 cm' }),
@@ -88,7 +88,7 @@ export const DEMO_KARYA = [
     deskripsi: 'Alat pencacah dan penggembur tanah.', ukuran: 'Bilah 25 cm (lebar 17–15 cm), gagang 1 m, pegangan 15 cm' }),
   k('sabit', { nama: 'Sabit Besar', kategori: 'alat_tani', jenis: 'sabit', unggulan: true, ...harga(45000), panjang_mm: 200, berat_gram: 500, gagang: 'Kayu',
     deskripsi: 'Alat pemotong rumput.', ukuran: 'Bilah 20 × 21 cm, gagang 25 cm' }),
-  k('sabit-kecil', { nama: 'Sabit Kecil', kategori: 'alat_tani', jenis: 'sabit', ...harga(30000), foto_url: '/karya/sabit.jpg', gagang: 'Kayu',
+  k('sabit-kecil', { nama: 'Sabit Kecil', kategori: 'alat_tani', jenis: 'sabit', ...harga(30000), foto_url: '/produk/sabit.jpg', gagang: 'Kayu',
     deskripsi: 'Sabit ukuran kecil untuk memotong rumput.' }),
   k('cangkul', { nama: 'Cangkul', kategori: 'alat_tani', jenis: 'cangkul', ...harga(55000), panjang_mm: 270, berat_gram: 1980,
     deskripsi: 'Alat untuk mencangkul.', ukuran: 'Bilah 27 cm, lebar 17 cm (atas) – 15,5 cm (bawah)' }),
