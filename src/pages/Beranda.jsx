@@ -3,18 +3,12 @@ import { useData } from '../lib/useData.js'
 import { KATEGORI } from '../lib/config.js'
 import { KartuKarya } from '../components/Ui.jsx'
 import { Sparks, Reveal, Counter, Marquee, Stamp } from '../components/Effects.jsx'
-import { KnifeSet, ToolArt } from '../components/ToolArt.jsx'
+import { ToolArt } from '../components/ToolArt.jsx'
+import HeroKnife from '../components/HeroKnife.jsx'
+import WorkshopValues from '../components/WorkshopValues.jsx'
+import OrderJourney from '../components/OrderJourney.jsx'
 import { SELECT_KARYA } from '../lib/useData.js'
 import { DEMO_KARYA } from '../data/demo.js'
-
-const ALUR = [
-  ['Pesan', 'Ceritakan barang yang kamu mau: jenis, ukuran, jumlah.'],
-  ['Estimasi', 'Dapat kisaran harga, lalu kirim foto atau sketsa lewat WhatsApp.'],
-  ['DP', 'Harga final dikonfirmasi pengrajin, lalu bayar DP.'],
-  ['Ditempa', 'Pengrajin menempa dari besi bekas. Kamu dapat foto prosesnya.'],
-  ['Dikirim', 'Barang bercap PASIR WETAN dengan QR paspor.'],
-  ['Purna jual', 'Scan QR untuk servis, asah ulang, atau pesan lagi.'],
-]
 
 export default function Beranda() {
   const unggulan = useData((s) =>
@@ -48,7 +42,7 @@ export default function Beranda() {
           </div>
           <div className="hero-art">
             <div className="heat" aria-hidden="true" />
-            <KnifeSet className="knifeset" />
+            <HeroKnife />
             <Stamp className="hero-stamp" />
           </div>
         </div>
@@ -57,21 +51,7 @@ export default function Beranda() {
       <Marquee items={['Cangkul', 'Sabit', 'Pisau chef', 'Golok', 'Engsel', 'Palu', 'Garpu rumput', 'Pembuka botol', 'Plakat logam', 'Pesanan khusus']} />
 
       {/* NILAI */}
-      <section className="wrap section">
-        <div className="feature-grid">
-          {[
-            ['01', 'Dibuat sesuai pesanan', 'Kirim foto atau sketsa. Pengrajin terbiasa bekerja dengan ukuran dan gambar teknik.'],
-            ['02', 'Dari besi bekas', 'Bilah per kendaraan dan besi setoran bank sampah diberi hidup baru. Beratnya tercatat.'],
-            ['03', 'Setiap bilah bercerita', 'QR paspor di setiap barang: siapa pembuatnya, asal besinya, dan cara merawatnya.'],
-          ].map(([n, t, d], i) => (
-            <Reveal key={n} delay={i * 90} className="feature">
-              <span className="feature-no">{n}</span>
-              <h3>{t}</h3>
-              <p>{d}</p>
-            </Reveal>
-          ))}
-        </div>
-      </section>
+      <WorkshopValues />
 
       {/* KATEGORI */}
       <section className="section band">
@@ -146,18 +126,7 @@ export default function Beranda() {
       </section>
 
       {/* ALUR */}
-      <section className="wrap section">
-        <Reveal className="section-head">
-          <span className="label">Cara pesan</span>
-          <h2>Dari sketsa sampai jadi</h2>
-        </Reveal>
-        <ol className="alur">
-          {ALUR.map(([t, d], i) => (
-            <Reveal as="li" key={t} delay={i * 70}><strong>{t}</strong><span>{d}</span></Reveal>
-          ))}
-        </ol>
-        <p className="muted note">Kami hanya menerima pesanan alat kerja, perlengkapan rumah tangga, dan dekorasi. <Link to="/aturan">Baca aturan pesanan</Link>.</p>
-      </section>
+      <OrderJourney />
 
       {/* DAMPAK */}
       {dampak.data && (
